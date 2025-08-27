@@ -8,10 +8,13 @@ import com.dingtalk.model.DingTalkUserDetailResponseBody
 import com.dingtalk.service.DingTalkService
 import com.dingtalk.util.HttpClient
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import java.net.URLEncoder
+import kotlin.io.encoding.Base64
 
 @Service
 class DingTalkServiceImpl(
@@ -71,8 +74,12 @@ class DingTalkServiceImpl(
             accessToken()
         }
         buildHeads()
+        var tempOperatorId=operatorId
+        if(tempOperatorId.isNullOrBlank()) {
+            tempOperatorId=""
+        }
         val type = object :TypeToken<DingTalkCreateTodoResponseBody?>(){}.type
-        val httpClientResponse=httpClient.post<DingTalkCreateTodoResponseBody?>("${dingTalkConfig.host}/v1.0/todo/users/${unionId}/tasks?operatorId=${unionId}",gson.toJson(requestVo), type)
+        val httpClientResponse=httpClient.post<DingTalkCreateTodoResponseBody?>("${dingTalkConfig.host}/v1.0/todo/users/${unionId}/tasks?operatorId=${tempOperatorId}",gson.toJson(requestVo), type)
         if(httpClientResponse.code!= 200) {
             throw RuntimeException(httpClientResponse.body?.message)
         }
@@ -96,5 +103,8 @@ class DingTalkServiceImpl(
         }
     }
 }
+
+
+
 
 
