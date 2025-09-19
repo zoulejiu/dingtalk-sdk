@@ -61,6 +61,10 @@ class DingTalkServiceImpl(
             put("language","zh_CN")
         }), type)
         if(httpClientResponse.code!= 200) {
+            if(httpClientResponse.code==400 && httpClientResponse.body?.code=="InvalidAuthentication"){
+                tokenMap.remove(dingTalkConfig.appKey)
+                return getUserDetail(userId)
+            }
             throw RuntimeException("ding talk get user Detail failed")
         }
         if(httpClientResponse.body?.errcode!=0){
@@ -81,6 +85,10 @@ class DingTalkServiceImpl(
         val type = object :TypeToken<DingTalkCreateTodoResponseBody?>(){}.type
         val httpClientResponse=httpClient.post<DingTalkCreateTodoResponseBody?>("${dingTalkConfig.host}/v1.0/todo/users/${unionId}/tasks?operatorId=${tempOperatorId}",gson.toJson(requestVo), type)
         if(httpClientResponse.code!= 200) {
+            if(httpClientResponse.code==400 && httpClientResponse.body?.code=="InvalidAuthentication"){
+                tokenMap.remove(dingTalkConfig.appKey)
+                return createUserTodoTask(unionId, tempOperatorId, requestVo)
+            }
             throw RuntimeException(httpClientResponse.body?.message)
         }
 
