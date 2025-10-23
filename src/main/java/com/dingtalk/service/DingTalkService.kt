@@ -3,6 +3,8 @@ package com.dingtalk.service
 import com.dingtalk.model.DingTalkAccessTokenResponseBody
 import com.dingtalk.model.DingTalkCreateTodoRequestBody
 import com.dingtalk.model.DingTalkCreateTodoResponseBody
+import com.dingtalk.model.DingTalkNotifyRequestBody
+import com.dingtalk.model.DingTalkNotifyResponseBody
 import com.dingtalk.model.DingTalkUserDetailResponseBody
 
 interface DingTalkService {
@@ -14,4 +16,5 @@ interface DingTalkService {
      */
     fun createUserTodoTask(unionId: String, operatorId: String?, requestVo: DingTalkCreateTodoRequestBody): DingTalkCreateTodoResponseBody
 
+    fun createNotification(request: DingTalkNotifyRequestBody): DingTalkNotifyResponseBody
 }

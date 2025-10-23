@@ -6,6 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 class DingTalkConfig {
     var appKey: String? = null
     var appSecret: String? = null
+    var agentId:Long? =3976509607
     var oldHost: String? = "https://oapi.dingtalk.com"
     var host: String? = "https://api.dingtalk.com"
 }
